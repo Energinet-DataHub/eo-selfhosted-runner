@@ -33,7 +33,7 @@ jobs:
       - name: Create new github release
         uses: "marvinpinto/action-automatic-releases@919008cf3f741b179569b7a6fb4d8860689ab7f0"
         with:
-          repo_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
           automatic_release_tag: ${{ steps.build_and_push.outputs.RELEASE_VERSION }}
           prerelease: false
           draft: false

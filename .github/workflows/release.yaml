@@ -1,0 +1,40 @@
+name: Release docker image
+
+env:
+  DOCKER_IMAGE: projectorigin/selfhosted-runner
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  create_release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    outputs:
+      release_tag: ${{ steps.build_and_push.outputs.RELEASE_VERSION }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Build and publish Docker image
+        id: build_and_push
+        uses: Energinet-DataHub/.github/.github/actions/docker-build-and-push@2.3.0
+        with:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }} 
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_SECRET }}
+          DOCKER_IMAGE: ${{ env.DOCKER_IMAGE }}
+          MAJOR: 1
+          MINOR: 0
+          PATCH: ${{ github.run_number }}
+
+      - name: Create new github release
+        uses: "marvinpinto/action-automatic-releases@919008cf3f741b179569b7a6fb4d8860689ab7f0"
+        with:
+          repo_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          automatic_release_tag: ${{ steps.build_and_push.outputs.RELEASE_VERSION }}
+          prerelease: false
+          draft: false
+          title: Release ${{ steps.build_and_push.outputs.RELEASE_VERSION }}

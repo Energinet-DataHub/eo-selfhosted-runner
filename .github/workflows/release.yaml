@@ -29,7 +29,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Bump version and push tag
-        id: version_tag
+        id: bumpVersion
         uses: anothrNick/github-tag-action@1.36.0
         env:
           RELEASE_BRANCHES: main,initial
@@ -42,8 +42,7 @@ jobs:
         uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
         with:
           tags: |
-            type=semver,pattern={{version}}
-            type=sha
+            type=raw,value=${{ steps.bumpVersion.outputs.new_tag }}
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
       - name: Build and push Docker image
@@ -58,7 +57,7 @@ jobs:
         uses: "marvinpinto/action-automatic-releases@919008cf3f741b179569b7a6fb4d8860689ab7f0"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: ${{ steps.version_tag.outputs.new_tag }}
+          automatic_release_tag: ${{ steps.bumpVersion.outputs.new_tag }}
           prerelease: false
           draft: false
-          title: Release ${{ steps.version_tag.outputs.new_tag }}
+          title: Release ${{ steps.bumpVersion.outputs.new_tag }}

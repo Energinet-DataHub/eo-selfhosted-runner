@@ -32,6 +32,7 @@ jobs:
         id: version_tag
         uses: anothrNick/github-tag-action@1.36.0
         env:
+          RELEASE_BRANCHES: main,initial
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           WITH_V: true
 

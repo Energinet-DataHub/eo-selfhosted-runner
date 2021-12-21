@@ -12,7 +12,7 @@ RUN DEBIAN_FRONTEND=noninteractive &&\
     useradd -m runner &&\
     apt-get update -y &&\
     apt-get upgrade -y &&\
-    apt-get install -y --no-install-recommends curl ca-certificates
+    apt-get install -y --no-install-recommends curl ca-certificates unzip
 
 # Mkdir for runner, download, unzip and chown. 
 RUN curl -o runner.tar.gz -L https://github.com/actions/runner/releases/download/v${VERSION}/actions-runner-linux-x64-${VERSION}.tar.gz &&\

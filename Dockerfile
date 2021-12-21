@@ -7,21 +7,25 @@ ARG VERSION="2.285.1"
 # Set workdir
 WORKDIR /home/runner/actions-runner
 
-# Add user, update and install packages
-RUN DEBIAN_FRONTEND=noninteractive &&\
-    useradd -m runner &&\
-    apt-get update -y &&\
-    apt-get upgrade -y &&\
-    apt-get install -y --no-install-recommends curl ca-certificates unzip sudo git &&\
-    usermod -aG sudo runner &&\
-    echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+# Set env variables
+ENV DEBIAN_FRONTEND=noninteractive
 
-# Mkdir for runner, download, unzip and chown. 
+# Update and install packages
+RUN apt-get update -y &&\
+    apt-get upgrade -y &&\
+    apt-get install -y --no-install-recommends curl ca-certificates unzip sudo git
+
+# Mkdir for runner, download, unzip
 RUN curl -o runner.tar.gz -L https://github.com/actions/runner/releases/download/v${VERSION}/actions-runner-linux-x64-${VERSION}.tar.gz &&\
     tar xzf runner.tar.gz &&\
     rm runner.tar.gz &&\
-    chown -R runner ~runner &&\
     ./bin/installdependencies.sh
+
+# Configure user and ownership
+RUN useradd -m runner &&\
+    usermod -aG sudo runner &&\
+    chown -R runner ~runner &&\
+    echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
 # Copy start.sh file
 COPY start.sh ./start.sh

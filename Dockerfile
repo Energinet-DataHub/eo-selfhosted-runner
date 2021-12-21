@@ -12,7 +12,7 @@ RUN DEBIAN_FRONTEND=noninteractive &&\
     useradd -m runner &&\
     apt-get update -y &&\
     apt-get upgrade -y &&\
-    apt-get install -y --no-install-recommends curl ca-certificates unzip sudo &&\
+    apt-get install -y --no-install-recommends curl ca-certificates unzip sudo git &&\
     usermod -aG sudo runner &&\
     echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 

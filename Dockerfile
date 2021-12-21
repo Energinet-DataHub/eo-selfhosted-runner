@@ -21,7 +21,10 @@ RUN curl -o runner.tar.gz -L https://github.com/actions/runner/releases/download
     chown -R runner ~runner &&\
     ./bin/installdependencies.sh
 
+# Copy start.sh file and set ownership
 COPY start.sh ./start.sh
+RUN chown runner ./start.sh
+
 # Set user as "runner"
 USER runner
 

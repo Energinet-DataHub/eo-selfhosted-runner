@@ -9,7 +9,7 @@ WORKDIR /home/runner/actions-runner
 
 # Add user, update and install packages
 RUN DEBIAN_FRONTEND=noninteractive &&\
-    useradd --disabled-password --gecos '' -m runner &&\
+    useradd -m runner &&\
     apt-get update -y &&\
     apt-get upgrade -y &&\
     apt-get install -y --no-install-recommends curl ca-certificates unzip sudo &&\

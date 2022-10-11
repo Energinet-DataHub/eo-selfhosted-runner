@@ -2,7 +2,7 @@
 FROM ubuntu:20.04
 
 # Github runner version https://github.com/actions/runner/releases
-ARG VERSION="2.285.1"
+ARG VERSION="2.298.2"
 
 # Set workdir
 WORKDIR /home/runner/actions-runner

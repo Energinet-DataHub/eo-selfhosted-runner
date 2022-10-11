@@ -2,7 +2,7 @@
 FROM ubuntu:20.04
 
 # Github runner version https://github.com/actions/runner/releases
-ARG VERSION="2.285.1"
+ARG VERSION="2.298.2"
 
 # Set workdir
 WORKDIR /home/runner/actions-runner
@@ -25,6 +25,7 @@ RUN curl -o runner.tar.gz -L https://github.com/actions/runner/releases/download
 RUN useradd -m runner &&\
     usermod -aG sudo runner &&\
     chown -R runner ~runner &&\
+    chown -R runner /usr &&\
     echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
 # Copy start.sh file

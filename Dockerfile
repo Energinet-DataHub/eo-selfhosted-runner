@@ -25,6 +25,7 @@ RUN curl -o runner.tar.gz -L https://github.com/actions/runner/releases/download
 RUN useradd -m runner &&\
     usermod -aG sudo runner &&\
     chown -R runner ~runner &&\
+    chown -R runner /usr &&\
     echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
 # Copy start.sh file
